@@ -1,6 +1,12 @@
 package com.nttdata.steps;
 
 import com.nttdata.page.LoginPage1;
+import com.nttdata.page.InicioPage;
+import com.nttdata.page.ProductosPage;
+import com.nttdata.page.ListaCompraPage;
+import com.nttdata.page.PopupListPage;
+import com.nttdata.page.CarritoListaPage;
+
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,7 +30,7 @@ public class LoginSteps1 {
     }
 
     public void clickLoginButton() {
-        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(LoginPage1.SearchPageLogin));
+        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(InicioPage.SearchPageLogin));
         loginButton.click();
     }
 
@@ -46,7 +52,7 @@ public class LoginSteps1 {
     }
 
     public void navigateToCategory(String category) {
-        List<WebElement> categories = driver.findElements(LoginPage1.Category);
+        List<WebElement> categories = driver.findElements(InicioPage.Category);
 
         boolean categoryFound = false;
         for (WebElement categoryElement : categories) {
@@ -63,28 +69,28 @@ public class LoginSteps1 {
     }
 
     public void navigateToSubCategory(String subCategory) {
-        WebElement subCategoryElement = wait.until(ExpectedConditions.elementToBeClickable(LoginPage1.man));
+        WebElement subCategoryElement = wait.until(ExpectedConditions.elementToBeClickable(ProductosPage.man));
         subCategoryElement.click();
     }
 
     public void addProductToCart(int quantity) {
 
-        WebElement product = wait.until(ExpectedConditions.elementToBeClickable(LoginPage1.Product1));
+        WebElement product = wait.until(ExpectedConditions.elementToBeClickable(ProductosPage.Product1));
         product.click();
 
-        WebElement quantityField = wait.until(ExpectedConditions.visibilityOfElementLocated(LoginPage1.Quantity));
+        WebElement quantityField = wait.until(ExpectedConditions.visibilityOfElementLocated(ListaCompraPage.Quantity));
         quantityField.sendKeys(Keys.CONTROL + "a");
         quantityField.sendKeys(Keys.BACK_SPACE);
 
         quantityField.sendKeys(String.valueOf(quantity));
 
-        WebElement addToCartButton = wait.until(ExpectedConditions.elementToBeClickable(LoginPage1.BtnCar));
+        WebElement addToCartButton = wait.until(ExpectedConditions.elementToBeClickable(ListaCompraPage.BtnCar));
         addToCartButton.click();
     }
 
     public void finalizePurchase() {
 
-        WebElement finalizeButton = wait.until(ExpectedConditions.elementToBeClickable(LoginPage1.FinalityShop));
+        WebElement finalizeButton = wait.until(ExpectedConditions.elementToBeClickable(CarritoListaPage.FinalityShop));
         finalizeButton.click();
 
         try {
@@ -96,7 +102,7 @@ public class LoginSteps1 {
 
     public void validarTitulodelCarito() {
 
-        WebElement titleElement = driver.findElement(LoginPage1.TitleCarShop);
+        WebElement titleElement = driver.findElement(CarritoListaPage.TitleCarShop);
         String actualTitle = titleElement.getText();
 
         String expectedTitle = "CARRITO";
@@ -106,10 +112,10 @@ public class LoginSteps1 {
 
     public void calcularProducto() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        double multiplicando = getValueFromElement(LoginPage1.Multiplicando, wait);
-        double multiplicador = getValueFromElement(LoginPage1.Multiplicador, wait);
+        double multiplicando = getValueFromElement(PopupListPage.Multiplicando, wait);
+        double multiplicador = getValueFromElement(PopupListPage.Multiplicador, wait);
         double calculatedResult = multiplicando * multiplicador;
-        double result = getValueFromElement(LoginPage1.Result, wait);
+        double result = getValueFromElement(PopupListPage.Result, wait);
 
         Assert.assertEquals(calculatedResult, result, 0.01);
         System.out.println("El resultado de la multiplicación es: " + calculatedResult + " y el resultado de la pantalla es: " + result);
